@@ -32,6 +32,13 @@ class PostReaction(models.Model):
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    @classmethod
+    def likes_count(cls, post_id):
+        return cls.objects.filter(post_id=post_id, liked = True).count()
+    @classmethod
+    def dislikes_count(cls, post_id):
+        return cls.objects.filter(post_id=post_id, liked = False).count()
+
 
 class Comment(models.Model):
     text = models.TextField()

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import CreatePostForm, CreateCommentForm
-from .models import Post
+from .models import Post, PostReaction
 
 def post_create(request):
     if request.POST:
@@ -24,12 +24,30 @@ def _create_comment(request, post):
         commentForm = CreateCommentForm()
     return commentForm
 
+def _react(request, post):
+    reaction = PostReaction()
+    reaction.liked = True if request.POST['reaction'] == 'like' else False
+    reaction.user_id = request.user
+    reaction.post_id = post
+    reaction.save()
+
 def post_details(request, id):
+    context = {}
     post = Post.objects.get(pk=id)
     comments = post.comment_set.all()
+    likes = PostReaction.likes_count(id)
+    dislikes = PostReaction.dislikes_count(id)
+    context['post'] = post
+    context['comments'] = comments
+    context['likes'] = likes
+    context['dislikes'] = dislikes
     commentForm = CreateCommentForm()
     if request.POST:
-        commentForm = _create_comment(request, post)
-    return render(request, 'post/details.html', {'post': post,
-     'comments': comments,
-     'commentForm': commentForm})
+        if request.POST['reaction']:
+            _react(request, post)
+            likes = PostReaction.likes_count(id)
+            dislikes = PostReaction.dislikes_count(id)
+        else:
+            commentForm = _create_comment(request, post)
+            context['commentForm'] = commentForm
+    return render(request, 'post/details.html', context)

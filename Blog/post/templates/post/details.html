@@ -4,10 +4,29 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div>
-    <img src="media/{{post.image}}" alt="">
+    <img src="media/{{post.image}}" alt="" width="200">
     <h5>{{post.title}}</h5>
     <p>{{post.content}}</p>
-
+    <ul>
+        <li>
+            likes = {{likes}} 
+            <div class="d-inline-block">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-link" type="submit" name='reaction' value="like">Like</button>
+                </form>
+            </div>
+        </li>
+        <li>
+            dislikes = {{dislikes}}
+            <div class="d-inline-block">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-link" type="submit" name='reaction' value="dislike">Dislike</button>
+                </form>
+            </div>
+        </li>
+    </ul>
     <h5>Comments</h5>
     {% for comment in comments %}
     {{comment}}
