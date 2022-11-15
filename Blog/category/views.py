@@ -3,17 +3,13 @@ from .forms import CategoryCreateForm
 from .models import CategoryModel
 
 
-def _category_create_post(request):
-    form = CategoryCreateForm(request.POST)
-    if form.is_valid():
-        form.save()
-        return redirect('/category')
-    return render(request, 'category/create.html', {'form': form})
-
-
 def category_create(request):
     if request.POST:
-        return _category_create_post(request)
+        form = CategoryCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/category')
+        return render(request, 'category/create.html', {'form': form})
     
     form = CategoryCreateForm()
     return render(request, 'category/create.html', {'form': form})
@@ -22,3 +18,18 @@ def category_create(request):
 def category_index(request):
     categories = CategoryModel.objects.all()
     return render(request, 'category/index.html', {'categories': categories})
+
+
+
+
+def category_update(request, id):
+    category = CategoryModel.objects.get(pk = id)
+    if request.POST:
+        form = CategoryCreateForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('/category')
+        return render(request, 'category/index.html', {'form': form})
+    form = CategoryCreateForm(instance=category)
+    return render(request, 'category/update.html', {'form': form})
+

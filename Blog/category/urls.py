@@ -6,4 +6,5 @@ urlpatterns = [
     path('create', views.category_create),
     path('', views.category_index),
     path('index', views.category_index),
+    path('update/<int:id>', views.category_update),
 ]
