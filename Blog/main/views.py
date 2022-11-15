@@ -5,7 +5,8 @@ def _register_post(request):
     form = RegisterForm(request.POST)
     if form.is_valid():
         form.save()
-        return redirect('')
+        return redirect('/')
+    return render(request, 'registration/register.html', {'form': form})
 
 def _register_get(request):
     form = RegisterForm()
