@@ -2,4 +2,9 @@
 
 {% block title %}Blog - Home{% endblock title %}
 
-{% block content %}Home page{% endblock content %}
+{% block content %}
+{% for post in posts %}
+<h5>{{post.title}}</h5>
+<p>{{post.content}}</p>
+{% endfor %}
+{% endblock content %}

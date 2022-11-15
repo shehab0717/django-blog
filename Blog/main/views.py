@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
+from post.models import Post
 
 def _register_post(request):
     form = RegisterForm(request.POST)
@@ -21,4 +22,5 @@ def register_view(request):
 
 
 def home_view(request):
-    return render(request, 'home.html')
+    posts = Post.get_all()
+    return render(request, 'home.html', {'posts': posts})
