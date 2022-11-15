@@ -40,3 +40,7 @@ def category_delete(request, id):
         category.delete()
         return redirect('/category')
     return render(request, 'category/delete.html', {'category': category})
+
+def category_details(request, id):
+    category = CategoryModel.objects.get(pk = id)
+    return render(request, 'category/details.html', {'category': category})

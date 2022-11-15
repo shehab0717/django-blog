@@ -1,0 +1,13 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}Category - {{category.name}}{% endblock title %}
+
+{% block content %}
+<ul>
+    <li>ID: {{category.id}}</li>
+    <li>Name: {{category.name}}</li>
+</ul>
+{% endblock content %}
+
+
+<!--Here we will list all posts subject to this category-->
