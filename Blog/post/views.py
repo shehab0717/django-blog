@@ -3,7 +3,7 @@ from .forms import CreatePostForm
 
 def post_create(request):
     if request.POST:
-        form = CreatePostForm(request.POST)
+        form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author_id = request.user
