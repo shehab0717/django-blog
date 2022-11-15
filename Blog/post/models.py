@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from category.models import Category
 
@@ -9,12 +10,20 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     image = models.ImageField(null=True, blank=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     author_id = models.ForeignKey(User, on_delete= models.CASCADE)
     created_at = models.TimeField(auto_now_add=True)
     updated_at = models.TimeField(auto_now=True)
 
+    def get_all(self):
+        return self.objects.all()
+
+    def get_by_category(self, category_id):
+        category = get_object_or_404(Category, id = category_id)
+        if category:
+            return self.objects.filter(category_id = category)
+        return None
 
 class PostReaction(models.Model):
     liked = models.BooleanField()

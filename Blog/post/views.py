@@ -1,3 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import CreatePostForm
 
-# Create your views here.
+def post_create(request):
+    if request.POST:
+        form = CreatePostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author_id = request.user
+            post.save()
+            return redirect('/')
+        return render(request, 'post/create.html', {'form': form})
+    form = CreatePostForm()
+    return render(request, 'post/create.html', {'form': form})
