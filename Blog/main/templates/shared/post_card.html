@@ -1,0 +1,31 @@
+{% comment %} {% if post.image %}
+  <img src="media/{{ post.image }}" />
+{% endif %}
+<h5>{{ post.title }}</h5>
+<p>{{ post.content }}</p> {% endcomment %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <img class="card-img" src="media/{{ post.image }}" alt="Bologna" />
+        <div class="card-img-overlay">
+          <a href="#" class="btn btn-light btn-sm">{{ post.category_id }}</a>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{ post.title }}</h4>
+          <small class="text-muted cat"><a href="#">@{{ post.author_id }}</a></small>
+          <p class="card-text">{{post.content}}</p>
+          <a href="#" class="btn btn-info">Read more</a>
+        </div>
+        <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
+          <div class="views">{{post.created_at}}</div>
+          {% comment %} <div class="stats">
+            <i class="far fa-eye"></i> 1347
+            <i class="far fa-comment"></i> 12
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

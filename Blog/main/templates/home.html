@@ -4,7 +4,6 @@
 
 {% block content %}
 {% for post in posts %}
-<h5>{{post.title}}</h5>
-<p>{{post.content}}</p>
+{% include 'shared/post_card.html' %}
 {% endfor %}
 {% endblock content %}
