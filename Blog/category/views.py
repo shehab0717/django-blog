@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import CategoryCreateForm
-from .models import CategoryModel
+from .models import Category
 
 
 def category_create(request):
@@ -16,14 +16,14 @@ def category_create(request):
 
 
 def category_index(request):
-    categories = CategoryModel.objects.all()
+    categories = Category.objects.all()
     return render(request, 'category/index.html', {'categories': categories})
 
 
 
 
 def category_update(request, id):
-    category = CategoryModel.objects.get(pk = id)
+    category = Category.objects.get(pk = id)
     if request.POST:
         form = CategoryCreateForm(request.POST, instance=category)
         if form.is_valid():
@@ -35,12 +35,12 @@ def category_update(request, id):
 
 
 def category_delete(request, id):
-    category = CategoryModel.objects.get(pk = id)
+    category = Category.objects.get(pk = id)
     if request.POST:
         category.delete()
         return redirect('/category')
     return render(request, 'category/delete.html', {'category': category})
 
 def category_details(request, id):
-    category = CategoryModel.objects.get(pk = id)
+    category = Category.objects.get(pk = id)
     return render(request, 'category/details.html', {'category': category})

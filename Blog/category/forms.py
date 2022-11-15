@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from .models import CategoryModel
+from .models import Category
 
 class CategoryCreateForm(ModelForm):
     class Meta:
-        model = CategoryModel
+        model = Category
         fields = ["name"]
