@@ -33,3 +33,10 @@ def category_update(request, id):
     form = CategoryCreateForm(instance=category)
     return render(request, 'category/update.html', {'form': form})
 
+
+def category_delete(request, id):
+    category = CategoryModel.objects.get(pk = id)
+    if request.POST:
+        category.delete()
+        return redirect('/category')
+    return render(request, 'category/delete.html', {'category': category})
