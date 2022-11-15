@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from .forms import CategoryCreateForm
 
-# Create your views here.
+
+def category_create(request):
+    form = CategoryCreateForm()
+    return render(request, 'category/create.html', {'form': form})
