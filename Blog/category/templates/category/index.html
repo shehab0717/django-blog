@@ -13,10 +13,10 @@
         {% for cat in categories %}
         <tr>
             <td>{{cat.id}}</td>
-            <td><a href="#">{{cat.name}}</a></td>
+            <td><a href="/category/details/{{cat.id}}">{{cat.name}}</a></td>
             <td>
-                <a class="btn btn-warning" href="#">update</a>
-                <a class="btn btn-danger" href="#">delete</a>
+                <a class="btn btn-warning" href="/category/update/{{cat.id}}">update</a>
+                <a class="btn btn-danger" href="/category/delete/{{cat.id}}">delete</a>
             </td>
             
         </tr>
