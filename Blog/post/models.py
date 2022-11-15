@@ -13,8 +13,8 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     author_id = models.ForeignKey(User, on_delete= models.CASCADE)
-    created_at = models.TimeField(auto_now_add=True)
-    updated_at = models.TimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
     def get_all(cls):
@@ -38,5 +38,5 @@ class Comment(models.Model):
     is_reply = models.BooleanField(default=False)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
     parent_id = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created_at = models.TimeField(auto_now_add=True)
-    updated_at = models.TimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
