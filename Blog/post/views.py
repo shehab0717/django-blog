@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import CreatePostForm, CreateCommentForm
 from .models import Post, PostReaction
 
+
 def post_create(request):
     if request.POST:
         form = CreatePostForm(request.POST, request.FILES)
@@ -14,6 +15,7 @@ def post_create(request):
     form = CreatePostForm()
     return render(request, 'post/create.html', {'form': form})
 
+
 def _create_comment(request, post):
     commentForm = CreateCommentForm(request.POST)
     if commentForm.is_valid() and request.user:
@@ -23,6 +25,7 @@ def _create_comment(request, post):
         comment.save()
         commentForm = CreateCommentForm()
     return commentForm
+
 
 def _react(request, post: Post):
     if request.user:
@@ -36,6 +39,7 @@ def _react(request, post: Post):
             reaction.post_id = post
             reaction.save()
 
+
 def post_details(request, id):
     post = Post.objects.get(pk=id)
     context = post.get_details()
@@ -48,3 +52,16 @@ def post_details(request, id):
             commentForm = _create_comment(request, post)
             context['commentForm'] = commentForm
     return render(request, 'post/details.html', context)
+
+
+def post_update(request, id):
+    post = Post.objects.get(pk=id)
+    if request.POST:
+        form = CreatePostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/post/details/{id}")
+        return render(request, 'post/update.html', {'form': form})
+    form = CreatePostForm(instance=post)
+
+    return render(request, 'post/update.html', {'form': form})

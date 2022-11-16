@@ -3,7 +3,11 @@
 {% block title %}Post - {{post.title}}{% endblock title %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="m-auto w-50 mt-5 bg-light">
+<div class="m-auto w-50 pt-5">
+    <div class="d-flex flex-row-reverse mb-3">
+        <a class="btn btn-link text-danger" href="/post/update/{{post.id}}">Delete</a>
+        <a class="btn btn-warning" href="/post/update/{{post.id}}">Update</a>
+    </div>
     <div class=" rounded overflow-hidden">
         <img class="w-100" src="/media/{{ post.image }}"/>
     </div>
