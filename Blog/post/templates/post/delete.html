@@ -1,0 +1,16 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}Post - delete{% endblock title %}
+
+{% block content %}
+<h4>Are you suer you want to delete the post?</h4>
+<div class="d-flex">
+    <div class="mx-3">
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-danger" type="submit" value="DELETE">
+        </form>
+    </div>
+    <a class="btn btn-primary" href="/post/details/{{id}}">Cancel</a>
+</div>
+{% endblock content %}

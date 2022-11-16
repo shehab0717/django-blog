@@ -65,3 +65,14 @@ def post_update(request, id):
     form = CreatePostForm(instance=post)
 
     return render(request, 'post/update.html', {'form': form})
+
+
+def post_delete(request, id):
+    post = Post.objects.filter(id = id)
+    if not post:
+        return render(request, 'shared/not_found.html')
+    post = post.first()
+    if request.POST:
+        post.delete()
+        return redirect('/')
+    return render(request, 'post/delete.html', {'id': id})
