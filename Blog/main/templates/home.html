@@ -3,7 +3,9 @@
 {% block title %}Blog - Home{% endblock title %}
 
 {% block content %}
-{% for post in posts %}
-{% include 'shared/post_card.html' %}
-{% endfor %}
+<div class="row">
+    {% for post in posts %}
+    {% include 'shared/post_card.html' %}
+    {% endfor %}
+</div>
 {% endblock content %}
