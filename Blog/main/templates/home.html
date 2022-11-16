@@ -3,6 +3,9 @@
 {% block title %}Blog - Home{% endblock title %}
 
 {% block content %}
+<div class="sidebar">
+    {% include 'category/list.html' %}
+</div>
 <div class="row">
     {% for post in posts %}
     {% include 'shared/post_card.html' %}

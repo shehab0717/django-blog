@@ -20,7 +20,6 @@ def category_index(request):
     if request.POST: #subscribe to a category
         category_id = request.POST['category_id']
         category = Category.objects.get(pk = category_id)
-        print(request.user)
         category.toggle_subscribe(request.user)
     return render(request, 'category/index.html', {'categories': categories})
 
@@ -49,3 +48,14 @@ def category_delete(request, id):
 def category_details(request, id):
     category = Category.objects.get(pk = id)
     return render(request, 'category/details.html', {'category': category})
+
+
+def category_toggle_subscribe(request, id):
+    if request.POST:
+        category = Category.objects.get(pk = id)
+        category.toggle_subscribe(request.user)
+        return redirect('/')
+    return render(request, 'shared/not_found.html')
+
+    
+    

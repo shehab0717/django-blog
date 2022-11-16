@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from post.models import Post
 from django.contrib.auth import logout
+from category.models import Category
+
 
 def _register_post(request):
     form = RegisterForm(request.POST)
@@ -10,9 +12,11 @@ def _register_post(request):
         return redirect('/')
     return render(request, 'registration/register.html', {'form': form})
 
+
 def _register_get(request):
     form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -20,11 +24,11 @@ def register_view(request):
     return _register_get(request)
 
 
-
-
 def home_view(request):
     posts = Post.get_all()
-    return render(request, 'home.html', {'posts': posts})
+    categories = Category.objects.all()
+    return render(request, 'home.html', {'posts': posts, 'categories': categories})
+
 
 def log_out(request):
     logout(request)

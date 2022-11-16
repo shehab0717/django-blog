@@ -8,5 +8,6 @@ urlpatterns = [
     path('create', views.category_create),
     path('update/<int:id>', views.category_update),
     path('delete/<int:id>', views.category_delete),
-    path('details/<int:id>', views.category_details),
+    path('details/<int:id>', views.category_details, name='category_details'),
+    path('subscribe/<int:id>', views.category_toggle_subscribe, name='category_toggle_subscribe')
 ]

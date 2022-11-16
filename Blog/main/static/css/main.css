@@ -2,3 +2,9 @@
     height: 300px;
     background-color: rgb(246, 246, 246);
 }
+
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+  }
