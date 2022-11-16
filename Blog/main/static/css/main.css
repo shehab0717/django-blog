@@ -4,7 +4,6 @@
 }
 
 .sidebar {
-    position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
     top: 0;
   }
