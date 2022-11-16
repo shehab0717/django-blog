@@ -40,8 +40,9 @@ def post_details(request, id):
     post = Post.objects.get(pk=id)
     context = post.get_details()
     commentForm = CreateCommentForm()
+    context['commentForm'] = commentForm
     if request.POST:
-        if request.POST['reaction']:
+        if 'reaction' in request.POST:
             _react(request, post)
         else:
             commentForm = _create_comment(request, post)
