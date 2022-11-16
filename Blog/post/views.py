@@ -24,29 +24,25 @@ def _create_comment(request, post):
         commentForm = CreateCommentForm()
     return commentForm
 
-def _react(request, post):
-    reaction = PostReaction()
-    reaction.liked = True if request.POST['reaction'] == 'like' else False
-    reaction.user_id = request.user
-    reaction.post_id = post
-    reaction.save()
+def _react(request, post: Post):
+    if request.user:
+        reaction = post.user_reaction(request.user)
+        if reaction:
+            reaction.delete()
+        else:
+            reaction = PostReaction()
+            reaction.liked = True if request.POST['reaction'] == 'like' else False
+            reaction.user_id = request.user
+            reaction.post_id = post
+            reaction.save()
 
 def post_details(request, id):
-    context = {}
     post = Post.objects.get(pk=id)
-    comments = post.comment_set.all()
-    likes = PostReaction.likes_count(id)
-    dislikes = PostReaction.dislikes_count(id)
-    context['post'] = post
-    context['comments'] = comments
-    context['likes'] = likes
-    context['dislikes'] = dislikes
+    context = post.get_details()
     commentForm = CreateCommentForm()
     if request.POST:
         if request.POST['reaction']:
             _react(request, post)
-            likes = PostReaction.likes_count(id)
-            dislikes = PostReaction.dislikes_count(id)
         else:
             commentForm = _create_comment(request, post)
             context['commentForm'] = commentForm

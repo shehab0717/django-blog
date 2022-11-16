@@ -4,12 +4,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div>
-    <img src="media/{{post.image}}" alt="" width="200">
+    <img src="/media/{{ post.image }}"/>
     <h5>{{post.title}}</h5>
     <p>{{post.content}}</p>
     <ul>
         <li>
-            likes = {{likes}} 
+            likes = {{likes.count}} 
             <div class="d-inline-block">
                 <form method="post">
                     {% csrf_token %}
@@ -18,7 +18,7 @@
             </div>
         </li>
         <li>
-            dislikes = {{dislikes}}
+            dislikes = {{dislikes.count}}
             <div class="d-inline-block">
                 <form method="post">
                     {% csrf_token %}

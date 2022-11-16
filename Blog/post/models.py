@@ -27,17 +27,31 @@ class Post(models.Model):
             return Post.objects.filter(category_id = category)
         return None
 
+    def get_details(self):
+        context = {
+            'post': self,
+            'comments': self.comment_set.all(),
+            'likes': PostReaction.likes(self.id),
+            'dislikes': PostReaction.dislikes(self.id),
+            }
+        return context
+
+    def user_reaction(self, user):
+        return PostReaction.objects.filter(post_id = self, user_id = user)
+
+
+
 class PostReaction(models.Model):
     liked = models.BooleanField()
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     @classmethod
-    def likes_count(cls, post_id):
-        return cls.objects.filter(post_id=post_id, liked = True).count()
+    def likes(cls, post_id):
+        return cls.objects.filter(post_id=post_id, liked = True)
     @classmethod
-    def dislikes_count(cls, post_id):
-        return cls.objects.filter(post_id=post_id, liked = False).count()
+    def dislikes(cls, post_id):
+        return cls.objects.filter(post_id=post_id, liked = False)
 
 
 class Comment(models.Model):
