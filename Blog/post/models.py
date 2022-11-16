@@ -18,7 +18,7 @@ class Post(models.Model):
 
     @classmethod
     def get_all(cls, user):
-        if user:
+        if user.is_authenticated:
             return Post.objects.filter(category_id__in = user.category_set.all())
         return Post.objects.all()
     @classmethod
