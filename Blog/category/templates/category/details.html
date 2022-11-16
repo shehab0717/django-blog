@@ -3,10 +3,20 @@
 {% block title %}Category - {{category.name}}{% endblock title %}
 
 {% block content %}
-<ul>
-    <li>ID: {{category.id}}</li>
-    <li>Name: {{category.name}}</li>
-</ul>
+<div>
+    <ul>
+        <li>ID: {{category.id}}</li>
+        <li>Name: {{category.name}}</li>
+    </ul>
+</div>
+<div>
+    <h4>subscribers</h4>
+    <ul>
+        {% for sub in category.subscribers.all %}
+        <li>{{sub.username}}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock content %}
 
 

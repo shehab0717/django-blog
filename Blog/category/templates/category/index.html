@@ -13,12 +13,25 @@
         {% for cat in categories %}
         <tr>
             <td>{{cat.id}}</td>
-            <td><a href="/category/details/{{cat.id}}">{{cat.name}}</a></td>
+            <td>
+                <a href="/category/details/{{cat.id}}">{{cat.name}}</a>
+                <div class="d-inline-block">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-primary" type="submit" name="category_id" value="{{cat.id}}">
+                            {% if user in cat.subscribers.all %}
+                            Unsubscribe
+                            {% else %}
+                            Subscribe
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </td>
             <td>
                 <a class="btn btn-warning" href="/category/update/{{cat.id}}">update</a>
                 <a class="btn btn-danger" href="/category/delete/{{cat.id}}">delete</a>
             </td>
-            
         </tr>
         {% endfor %}
     </tbody>

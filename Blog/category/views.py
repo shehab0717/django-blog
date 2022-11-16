@@ -17,6 +17,11 @@ def category_create(request):
 
 def category_index(request):
     categories = Category.objects.all()
+    if request.POST: #subscribe to a category
+        category_id = request.POST['category_id']
+        category = Category.objects.get(pk = category_id)
+        print(request.user)
+        category.toggle_subscribe(request.user)
     return render(request, 'category/index.html', {'categories': categories})
 
 

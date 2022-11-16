@@ -9,5 +9,15 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    def toggle_subscribe(self, user):
+        sub = self.subscribers.filter(id = user.id)
+        if sub:
+            self.subscribers.remove(user)
+        else: 
+            self.subscribers.add(user.id)
+
+
+
     def __str__(self) -> str:
         return self.name
