@@ -43,6 +43,7 @@
                     
                 </div>
             </div>
+            {% if user.is_authenticated %}
             <div class="d-flex flex-row-reverse bg-primary">
                 <div class="d-inline-block">
                     <form method="post">
@@ -65,6 +66,7 @@
                     <input class="btn btn-warning" type="submit" value="Comment">
                 </form>
             </div>
+            {% endif %}
             <div class="p-3 bg-light">
                 <h5>Comments</h5>
                 {% for comment in comments %}
