@@ -25,7 +25,7 @@ def register_view(request):
 
 
 def home_view(request):
-    posts = Post.get_all()
+    posts = Post.get_all(request.user)
     categories = Category.objects.all()
     return render(request, 'home.html', {'posts': posts, 'categories': categories})
 

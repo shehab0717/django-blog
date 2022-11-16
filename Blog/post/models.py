@@ -17,9 +17,10 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     @classmethod
-    def get_all(cls):
+    def get_all(cls, user):
+        if user:
+            return Post.objects.filter(category_id__in = user.category_set.all())
         return Post.objects.all()
-
     @classmethod
     def get_by_category(cls, category_id):
         category = get_object_or_404(Category, id = category_id)
