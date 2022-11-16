@@ -30,7 +30,7 @@
           <div>
             {% if user.is_authenticated %}
               <p>
-                Hello {{ user.username }} | <a href="#">Log out</a>
+                Hello {{ user.username }} | <a href="/log-out">Log out</a>
               </p>
               {% else %}
               <a href="/login">Login</a> | 
