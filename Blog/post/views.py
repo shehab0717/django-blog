@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import CreatePostForm, CreateCommentForm
 from .models import Post, PostReaction
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def post_create(request):
     if request.POST:
         form = CreatePostForm(request.POST, request.FILES)
@@ -16,7 +18,7 @@ def post_create(request):
     form = CreatePostForm()
     return render(request, 'post/create.html', {'form': form})
 
-
+@login_required
 def _create_comment(request, post):
     commentForm = CreateCommentForm(request.POST)
     if commentForm.is_valid() and request.user:
@@ -27,7 +29,7 @@ def _create_comment(request, post):
         commentForm = CreateCommentForm()
     return commentForm
 
-
+@login_required
 def _react(request, post: Post):
     if request.user:
         reaction = post.user_reaction(request.user)
@@ -54,7 +56,7 @@ def post_details(request, id):
             context['commentForm'] = commentForm
     return render(request, 'post/details.html', context)
 
-
+@login_required
 def post_update(request, id):
     post = Post.objects.get(pk=id)
     if request.POST:
@@ -69,7 +71,7 @@ def post_update(request, id):
 
     return render(request, 'post/update.html', {'form': form})
 
-
+@login_required
 def post_delete(request, id):
     post = Post.objects.filter(id = id)
     if not post:
