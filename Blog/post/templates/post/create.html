@@ -11,8 +11,43 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{form|crispy}}
+            <div class="mb-4 d-flex flex-row-reverse">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tagFormModal">
+                    New tag
+                </button>    
+            </div>
             <input class="btn btn-success" type="submit" value="Create">
         </form>
     </div>
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="tagFormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New tag</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" action="/" id="tag-form">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new_tag">Tag name</label>
+                    <input class="form-control" type="text" name="new_tag" id="new_tag" placeholder="New tag">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Add" />
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'post/js/main.js' %}"></script>
+{% endblock scripts %}
