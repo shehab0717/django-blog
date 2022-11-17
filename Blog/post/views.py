@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CreatePostForm, CreateCommentForm
 from .models import Post, PostReaction
+from django.core.exceptions import PermissionDenied
 
 
 def post_create(request):
@@ -57,6 +58,8 @@ def post_details(request, id):
 def post_update(request, id):
     post = Post.objects.get(pk=id)
     if request.POST:
+        if not request.user == post.author_id:
+            raise PermissionDenied()
         form = CreatePostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
@@ -73,6 +76,8 @@ def post_delete(request, id):
         return render(request, 'shared/not_found.html')
     post = post.first()
     if request.POST:
+        if not request.user == post.author_id:
+            raise PermissionDenied()
         post.delete()
         return redirect('/')
     return render(request, 'post/delete.html', {'id': id})

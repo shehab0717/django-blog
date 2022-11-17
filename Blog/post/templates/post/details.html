@@ -7,25 +7,29 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-6 justify-content-center">
-                <h5 class="text-primary m-0">{{post.author_id}} @{{post.category_id}}</h5 class="text-secondary">
+                <h5 class="text-primary my-3">{{post.author_id}} @{{post.category_id}}</h5 class="text-secondary">
             </div>
+            {% if user.is_authenticated and post.author_id == user %}
             <div class="col-12 col-md-6">
                 <div class="d-flex flex-row-reverse mb-3">
                     <a class="btn btn-link text-danger" href="/post/delete/{{post.id}}">Delete</a>
                     <a class="btn btn-warning" href="/post/update/{{post.id}}">Update</a>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     
     <div class="post row">
+        {% if post.image %}
         <div class="col-12 col-md-6">
             <div class=" rounded overflow-hidden">
                 <img class="w-100" src="/media/{{ post.image }}"/>
             </div>
             
         </div>
-        <div class="col-12 col-md-6">
+        {% endif %}
+        <div class="col-12 col-md-6 mx-auto">
             <div class="bg-light p-3">
                 <h5 class="my-3">{{post.title}}</h5>
                 <p>{{post.content}}</p>
