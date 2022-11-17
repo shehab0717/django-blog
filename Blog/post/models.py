@@ -2,9 +2,9 @@ from django.db import models
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from category.models import Category
+from tag.models import Tag
 
-class Tag(models.Model):
-    name=models.CharField(max_length=20, primary_key=True)
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
