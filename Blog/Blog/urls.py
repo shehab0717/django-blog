@@ -5,10 +5,10 @@ from django.urls import path, include
 # from main import urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('cadmin.urls')),
     path('', include('main.urls')),
     path('', include('django.contrib.auth.urls')),
-    path('category/', include('category.urls')),
+    # path('category/', include('category.urls')),
     path('post/', include('post.urls')),
-    path('tag/', include('tag.urls')),
+    # path('tag/', include('tag.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

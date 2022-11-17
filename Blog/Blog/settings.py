@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'category.apps.CategoryConfig',
     'post.apps.PostConfig',
     'tag.apps.TagConfig',
+    'cadmin.apps.AdminConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
