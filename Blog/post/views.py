@@ -13,6 +13,8 @@ def post_create(request):
             post = form.save(commit=False)
             post.author_id = request.user
             post.save()
+            form.save_m2m()
+            print(post.tags.all())
             return redirect('/')
         return render(request, 'post/create.html', {'form': form})
     form = CreatePostForm()
