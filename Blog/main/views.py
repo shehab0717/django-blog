@@ -3,12 +3,22 @@ from .forms import RegisterForm
 from post.models import Post
 from django.contrib.auth import logout
 from category.models import Category
-
-
+from django.conf import settings
+from django.contrib.auth.models import Group
+def _check_groups():
+    for g in settings.GROUPS:
+        group = Group.objects.filter(name=g['NAME'])
+        if not group:
+            group = Group(name=g['NAME'])
+            group.save()
 def _register_post(request):
     form = RegisterForm(request.POST)
     if form.is_valid():
-        form.save()
+        user = form.save(commit=False)
+        _check_groups()
+        group = Group.objects.get(name='default')
+        user.save()
+        group.user_set.add(user)
         return redirect('/')
     return render(request, 'registration/register.html', {'form': form})
 
