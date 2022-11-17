@@ -56,7 +56,7 @@ def category_toggle_subscribe(request, id):
     if request.POST:
         category = Category.objects.get(pk = id)
         category.toggle_subscribe(request.user)
-        return redirect(reverse('category_index'))
+        return redirect(reverse('home'))
     return render(request, 'shared/not_found.html')
 
     
