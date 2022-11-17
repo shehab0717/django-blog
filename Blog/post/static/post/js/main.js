@@ -10,7 +10,7 @@ function form_submit(event){
     console.log(tagName)
     $.ajax({
         type: "POST",
-        url: '/tag/create',
+        url: '/admin/tag/create',
         data: {
             name: tagName,
             csrfmiddlewaretoken: csrf_token
