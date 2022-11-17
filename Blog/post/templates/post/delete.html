@@ -11,6 +11,6 @@
             <input class="btn btn-danger" type="submit" value="DELETE">
         </form>
     </div>
-    <a class="btn btn-primary" href="/post/details/{{id}}">Cancel</a>
+    <a class="btn btn-primary" href="{% url 'post_details' post.id %}">Cancel</a>
 </div>
 {% endblock content %}

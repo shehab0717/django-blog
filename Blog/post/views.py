@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import CreatePostForm, CreateCommentForm
 from .models import Post, PostReaction
 from django.core.exceptions import PermissionDenied
@@ -15,7 +16,7 @@ def post_create(request):
             post.save()
             form.save_m2m()
             print(post.tags.all())
-            return redirect('/')
+            return redirect(reverse('home'))
         return render(request, 'post/create.html', {'form': form})
     form = CreatePostForm()
     return render(request, 'post/create.html', {'form': form})
@@ -83,5 +84,5 @@ def post_delete(request, id):
         if not request.user == post.author_id:
             raise PermissionDenied()
         post.delete()
-        return redirect('/')
+        return redirect(reverse('home'))
     return render(request, 'post/delete.html', {'id': id})

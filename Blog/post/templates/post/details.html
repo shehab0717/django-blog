@@ -12,8 +12,8 @@
             {% if user.is_authenticated and post.author_id == user %}
             <div class="col-12 col-md-6">
                 <div class="d-flex flex-row-reverse mb-3">
-                    <a class="btn btn-link text-danger" href="/post/delete/{{post.id}}">Delete</a>
-                    <a class="btn btn-warning" href="/post/update/{{post.id}}">Update</a>
+                    <a class="btn btn-link text-danger" href="{% url 'post_delete' post.id %}">Delete</a>
+                    <a class="btn btn-warning" href="{% url 'post_update' post.id %}">Update</a>
                 </div>
             </div>
             {% endif %}

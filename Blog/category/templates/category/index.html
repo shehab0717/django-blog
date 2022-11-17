@@ -14,7 +14,7 @@
         <tr>
             <td>{{cat.id}}</td>
             <td>
-                <a href="/category/details/{{cat.id}}">{{cat.name}}</a>
+                <a href="{% url 'category_details' cat.id %}">{{cat.name}}</a>
                 <div class="d-inline-block">
                     <form method="POST">
                         {% csrf_token %}
@@ -29,8 +29,8 @@
                 </div>
             </td>
             <td>
-                <a class="btn btn-warning" href="/category/update/{{cat.id}}">update</a>
-                <a class="btn btn-danger" href="/category/delete/{{cat.id}}">delete</a>
+                <a class="btn btn-warning" href="{% url 'category_update' cat.id %}">update</a>
+                <a class="btn btn-danger" href="{% url 'category_delete' cat.id %}">delete</a>
             </td>
         </tr>
         {% endfor %}

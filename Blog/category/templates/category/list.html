@@ -7,7 +7,7 @@
         </a>
         {% if user.is_authenticated %}
         <div class="d-inline-block mx-3">
-            <form method="POST" action="/category/subscribe/{{cat.id}}">
+            <form method="POST" action=" {% url 'category_toggle_subscribe' cat.id %}">
                 {% csrf_token %}
                 <button class="btn btn-primary btn-sm" type="submit">
                     {% if user in cat.subscribers.all %}

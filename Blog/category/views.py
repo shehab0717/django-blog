@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import CategoryCreateForm
 from .models import Category
 
@@ -8,7 +9,8 @@ def category_create(request):
         form = CategoryCreateForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/category')
+
+            return redirect(reverse('category_index'))
         return render(request, 'category/create.html', {'form': form})
     
     form = CategoryCreateForm()
@@ -32,7 +34,7 @@ def category_update(request, id):
         form = CategoryCreateForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            return redirect('/category')
+            return redirect(reverse('category_index'))
         return render(request, 'category/index.html', {'form': form})
     form = CategoryCreateForm(instance=category)
     return render(request, 'category/update.html', {'form': form})
@@ -42,7 +44,7 @@ def category_delete(request, id):
     category = Category.objects.get(pk = id)
     if request.POST:
         category.delete()
-        return redirect('/category')
+        return redirect(reverse('category_index'))
     return render(request, 'category/delete.html', {'category': category})
 
 def category_details(request, id):
@@ -54,7 +56,7 @@ def category_toggle_subscribe(request, id):
     if request.POST:
         category = Category.objects.get(pk = id)
         category.toggle_subscribe(request.user)
-        return redirect('/')
+        return redirect(reverse('category_index'))
     return render(request, 'shared/not_found.html')
 
     

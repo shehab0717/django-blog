@@ -12,10 +12,10 @@
         {% for tag in tags %}
         <tr>
             <td>
-                <a href="/category/details/{{tag.id}}">{{tag.name}}</a>
+                {{tag.name}}
             </td>
             <td>
-                <a class="btn btn-warning" href="/tag/update/{{tag.id}}">update</a>
+                <a class="btn btn-warning" href="{% url 'tag_update' tag.name %}">update</a>
                 <div class="d-inline-block">
                     <form method="POST" action="{% url 'tag_delete' tag.name %}">
                         {% csrf_token %}

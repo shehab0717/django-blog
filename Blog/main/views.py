@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import RegisterForm
 from post.models import Post
 from django.contrib.auth import logout
 from category.models import Category
 from django.conf import settings
 from django.contrib.auth.models import Group
+
 def _check_groups():
     for g in settings.GROUPS:
         group = Group.objects.filter(name=g['NAME'])
         if not group:
             group = Group(name=g['NAME'])
             group.save()
+
 def _register_post(request):
     form = RegisterForm(request.POST)
     if form.is_valid():
@@ -19,7 +22,7 @@ def _register_post(request):
         group = Group.objects.get(name='default')
         user.save()
         group.user_set.add(user)
-        return redirect('/')
+        return redirect(reverse('login'))
     return render(request, 'registration/register.html', {'form': form})
 
 
@@ -42,4 +45,4 @@ def home_view(request):
 
 def log_out(request):
     logout(request)
-    return redirect('/')
+    return redirect(reverse('login'))

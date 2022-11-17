@@ -8,7 +8,7 @@
 <form method="POST">
     {% csrf_token %}
     {{form|crispy}}
-    <p>Alread have an account? login <a href="/login">here</a></p>
+    <p>Alread have an account? login <a href="{% url 'login' %}">here</a></p>
     <input class="btn btn-success" type="submit" value="Register">
 </form>
 {% endblock content %}
