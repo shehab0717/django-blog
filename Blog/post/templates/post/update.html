@@ -1,13 +1,21 @@
-{% extends 'registration/base.html' %}
+{% extends 'shared/_layout.html' %}
 
 {% block title %}Post - Update{% endblock title %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input class="btn btn-success" type="submit" value="Update">
-</form>
+<div class="container">
+    <h2 class="my-5">Update post</h2>
+    <div class="my-4" >
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <div class="d-flex">
+                <input class="btn btn-success" type="submit" value="Update">
+                <a class="btn btn-outline-danger ms-3" href="{% url 'post_details' form.instance.id %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}
