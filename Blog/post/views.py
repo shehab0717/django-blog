@@ -85,4 +85,4 @@ def post_delete(request, id):
             raise PermissionDenied()
         post.delete()
         return redirect(reverse('home'))
-    return render(request, 'post/delete.html', {'id': id})
+    return render(request, 'post/delete.html', {'post': post})
