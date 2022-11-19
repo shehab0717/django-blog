@@ -21,11 +21,20 @@ def user_index(request):
     users = User.objects.all()
     return render(request, 'cadmin/user/index.html', {'users': users})
 
-
+@staff_member_required
 def make_admin(request, id):
     if request.POST:
         user = get_object_or_404(User, id=id)
         user.is_staff = True
+        user.save()
+        return redirect(reverse('user_index'))
+    return render(request, 'shared/not_found.html')
+
+@staff_member_required
+def block_user(request, id):
+    if request.POST:
+        user = get_object_or_404(User, id=id)
+        user.is_active = not user.is_active
         user.save()
         return redirect(reverse('user_index'))
     return render(request, 'shared/not_found.html')

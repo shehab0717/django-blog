@@ -35,7 +35,7 @@
                     <td>
                         {% if not user.is_staff %}
                         <div class="d-inline-block">
-                            <form method="POST">
+                            <form method="POST" action="{% url 'block_user' user.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-info" type="submit">
                                     {% if user.is_active %}Block
