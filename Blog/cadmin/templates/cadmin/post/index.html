@@ -1,0 +1,33 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h2>All posts</h2>
+        <table class="table table-hover table-striped">
+            <thead>
+                <td>id</td>
+                <td>Title</td>
+                <td>Author</td>
+                <td>Category</td>
+                <td>Actions</td>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td><a href="{% url 'post_details' post.id %}">{{post.title}}</a></td>
+                    <td>{{post.author_id}}</td>
+                    <td>{{post.category_id}}</td>
+                    <td>
+                        <a class="btn btn-danger" href="#">Delete</a>
+                        <a class="btn btn-warning" href="{% url 'post_update' post.id %}?next={% url 'post_index' %}">Update</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock content %}

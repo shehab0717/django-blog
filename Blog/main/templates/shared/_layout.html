@@ -22,9 +22,11 @@
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
               </li>
+              {% if user and user.is_staff %}
               <li>
-                <a class="nav-link" href="{% url 'category_index' %}">Categories</a>
+                <a class="nav-link" href="{% url 'admin_index' %}">Manage blog</a>
               </li>
+              {% endif %}
             </ul>
           </div>
           <div>

@@ -62,17 +62,20 @@ def post_details(request, id):
 @login_required
 def post_update(request, id):
     post = Post.objects.get(pk=id)
-    if request.POST:
-        if not request.user == post.author_id:
-            raise PermissionDenied()
-        form = CreatePostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect(f"/post/details/{id}")
-        return render(request, 'post/update.html', {'form': form})
-    form = CreatePostForm(instance=post)
+    if request.user == post.author_id or (request.user and request.user.is_staff):
+        if request.POST:
+            form = CreatePostForm(request.POST, request.FILES, instance=post)
+            if form.is_valid():
+                form.save()
+                next = request.GET.get('next')
+                if not next:
+                    next = reverse('post_details', kwargs={'id': id})
+                return redirect(next)
+            return render(request, 'post/update.html', {'form': form})
+        form = CreatePostForm(instance=post)
 
-    return render(request, 'post/update.html', {'form': form})
+        return render(request, 'post/update.html', {'form': form})
+    raise PermissionDenied()
 
 @login_required
 def post_delete(request, id):

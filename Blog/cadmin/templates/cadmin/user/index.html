@@ -1,0 +1,55 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}Users{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h2>All users</h2>
+        <table class="table table-hover table-striped">
+            <thead>
+                <td>id</td>
+                <td>Username</td>
+                <td>Email</td>
+                <td>Is admin</td>
+                <td>Actions</td>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr class="{% if user.is_staff %}bg-warning{% endif %}">
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>
+                        {{user.is_staff}}
+                        {% if not user.is_staff %}
+                        <div class="d-inline-block">
+                            <form method="POST" action="{% url 'make_admin' user.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-link" type="submit">
+                                    Make admin
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not user.is_staff %}
+                        <div class="d-inline-block">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-info" type="submit">
+                                    {% if user.is_active %}Block
+                                    {% else %}Unblock
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock content %}
