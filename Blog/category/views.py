@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import CategoryCreateForm
 from .models import Category
+from cadmin.decorators import staff_member_required
 
 
+@staff_member_required(login_url='/login')
 def category_create(request):
     if request.POST:
         form = CategoryCreateForm(request.POST)
@@ -17,6 +19,7 @@ def category_create(request):
     return render(request, 'category/create.html', {'form': form})
 
 
+@staff_member_required(login_url='/login')
 def category_index(request):
     categories = Category.objects.all()
     if request.POST: #subscribe to a category
@@ -28,6 +31,7 @@ def category_index(request):
 
 
 
+@staff_member_required(login_url='/login')
 def category_update(request, id):
     category = Category.objects.get(pk = id)
     if request.POST:
@@ -40,6 +44,7 @@ def category_update(request, id):
     return render(request, 'category/update.html', {'form': form})
 
 
+@staff_member_required(login_url='/login')
 def category_delete(request, id):
     category = Category.objects.get(pk = id)
     if request.POST:
