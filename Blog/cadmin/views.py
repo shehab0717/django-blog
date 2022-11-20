@@ -3,6 +3,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from post.models import Post
 from django.contrib.auth.models import User
 from django.urls import reverse
+from main.models import UserStatus
 
 
 @staff_member_required
@@ -34,7 +35,8 @@ def make_admin(request, id):
 def block_user(request, id):
     if request.POST:
         user = get_object_or_404(User, id=id)
-        user.is_active = not user.is_active
-        user.save()
+        u_status = get_object_or_404(UserStatus, user = user)
+        u_status.is_blocked = not u_status.is_blocked
+        u_status.save()
         return redirect(reverse('user_index'))
     return render(request, 'shared/not_found.html')

@@ -38,8 +38,8 @@
                             <form method="POST" action="{% url 'block_user' user.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-info" type="submit">
-                                    {% if user.is_active %}Block
-                                    {% else %}Unblock
+                                    {% if user.userstatus.is_blocked %}Unblock
+                                    {% else %}Block
                                     {% endif %}
                                 </button>
                             </form>
