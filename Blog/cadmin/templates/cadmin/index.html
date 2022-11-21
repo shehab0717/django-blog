@@ -3,7 +3,8 @@
 {% block title %}Admin{% endblock title %}
 
 {% block content %}
-<a href="">Users</a>
+<a href="{% url 'user_index' %}">Users</a>
 <a href="{% url 'post_index' %}">Posts</a>
-<a href="">Categories</a>
+<a href="{% url 'category_index' %}">Categories</a>
+<a href="{% url 'badword_index' %}">Bad words</a>
 {% endblock content %}
