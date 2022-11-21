@@ -57,8 +57,15 @@ class PostReaction(models.Model):
 
 class Comment(models.Model):
     text = models.TextField()
-    is_reply = models.BooleanField(default=False)
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    parent_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Reply(models.Model):
+    text = models.TextField()
+    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

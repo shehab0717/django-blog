@@ -83,6 +83,27 @@
                         <div>@{{comment.author_id}}</div>
                         <div>{{comment.created_at}}</div>
                     </div>
+                    <span class="btn btn-link reply-btn" data-comment-id="{{comment.id}}">Reply</span>
+                </div>
+                <div class="p-3 ms-5">
+                    {% for reply in comment.reply_set.all %}
+                    <p class="fs-5 fw-semibold">{{reply.text}}</p>
+                    <div class="d-flex justify-content-between text-secondary">
+                        <div>@{{reply.author_id}}</div>
+                        <div>{{reply.created_at}}</div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <div class="p-3 ms-5 hide" id="reply-form-{{comment.id}}">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" class="form-control mb-2" id="comment-id-{{comment.id}}" value="" name="comment_id" hidden>
+                        <div class="form-group">
+                            <input type="text" class="form-control mb-2" name="reply_text">
+                            <input type="submit" value="Send" class="btn btn-primary">
+                        </div>
+                    </form>
                 </div>
                 {% empty %}
                 <p>No comments</p>
@@ -91,4 +112,17 @@
         </div>
     </div>
 </div>
+<form method="POST" id="reply-form" hidden>
+    {% csrf_token %}
+    <input type="text" class="form-control mb-2" id="comment-id" value="" name="comment_id">
+    <div class="form-group">
+        <input type="text" class="form-control mb-2" name="reply_text">
+        <input type="submit" value="Send" class="btn btn-primary">
+    </div>
+</form>
 {% endblock content %}
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'post/js/main.js' %}"></script>
+{% endblock scripts %}

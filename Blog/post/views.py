@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import CreatePostForm, CreateCommentForm
-from .models import Post, PostReaction
+from .models import Post, PostReaction, Comment, Reply
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 
@@ -27,7 +27,7 @@ def _create_comment(request, post):
     if commentForm.is_valid() and request.user:
         comment = commentForm.save(commit=False)
         comment.author_id = request.user
-        comment.parent_id = post
+        comment.post_id = post
         comment.save()
         commentForm = CreateCommentForm()
     return commentForm
@@ -54,6 +54,8 @@ def post_details(request, id):
     if request.POST:
         if 'reaction' in request.POST:
             _react(request, post)
+        elif 'reply_text' in request.POST:
+            _send_reply(request)
         else:
             commentForm = _create_comment(request, post)
             context['commentForm'] = commentForm
@@ -89,3 +91,15 @@ def post_delete(request, id):
         post.delete()
         return redirect(reverse('home'))
     return render(request, 'post/delete.html', {'post': post})
+
+
+def _send_reply(request):
+    if request.POST:
+        reply = Reply()
+        reply.text = request.POST['reply_text']
+        print(request.POST)
+        comment = Comment.objects.get(pk = request.POST['comment_id'])
+        reply.comment_id = comment
+        reply.author_id = request.user
+        reply.save()
+

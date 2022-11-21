@@ -1,8 +1,25 @@
 tagForm = document.getElementById('tag-form')
 
-tagForm.onsubmit = form_submit
+if(tagForm)
+    tagForm.onsubmit = form_submit
 
+$('.reply-btn').each(function () {
+    var $this = $(this);
+    $this.on("click", function () {
+        showReplyForm($($this).data('comment-id'))
+    });
+});
 
+$(".hide").hide()
+
+function showReplyForm(commentId){
+    $form = $(`#reply-form-${commentId}`)
+    $form.show()
+    commentInput = document.getElementById(`comment-id-${commentId}`)
+    commentInput.value = commentId
+}
+
+    
 function form_submit(event){
     form = event.target
     tagName = form[1].value
