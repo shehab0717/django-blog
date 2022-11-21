@@ -1,0 +1,34 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}Bad words{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="my-3">
+        <form method="POST" action="{% url 'badword_create' %}">
+            {% csrf_token %}
+            <input placeholder="New bad word" class="form-control" type="text" name="text">
+            <input class="btn btn-primary mt-3" type="submit">
+        </form>
+    </div>
+    <table class="table table-hover table-striped">
+        <thead>
+            <td>word</td>
+            <td>action</td>
+        </thead>
+        <tbody>
+            {% for word in words %}
+            <tr>
+                <td>{{word.text}}</td>
+                <td>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input class="btn btn-outline-danger" type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

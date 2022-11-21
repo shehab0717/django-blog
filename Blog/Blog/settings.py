@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'tag.apps.TagConfig',
     'cadmin.apps.AdminConfig',
+    'badword.apps.BadwordConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

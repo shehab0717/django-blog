@@ -9,4 +9,5 @@ urlpatterns = [
     path('user/block_user/<int:id>', block_user, name="block_user"),
     path('category/', include('category.urls')),
     path('tag/', include('tag.urls')),
+    path('badword/', include('badword.urls')),
 ]
