@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from category.models import Category
 from tag.models import Tag
+from badword.models import BadWord
 
 
 
@@ -37,6 +38,12 @@ class Post(models.Model):
             }
         return context
 
+    def clean_title(self):
+        return BadWord.clean(self.title)
+
+    def clean_conent(self):
+        return BadWord.clean(self.content)
+
     def user_reaction(self, user):
         return PostReaction.objects.filter(post_id = self, user_id = user)
 
@@ -63,9 +70,16 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+    def clean_text(self):
+        return BadWord.clean(self.text)
+
+
 class Reply(models.Model):
     text = models.TextField()
     author_id = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_id = models.ForeignKey(Comment, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def clean_text(self):
+        return BadWord.clean(self.text)

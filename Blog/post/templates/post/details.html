@@ -1,6 +1,6 @@
 {% extends 'shared/_layout.html' %}
 
-{% block title %}Post - {{post.title}}{% endblock title %}
+{% block title %}Post - {{post.clean_title}}{% endblock title %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="m-auto pt-5">
@@ -31,8 +31,8 @@
         {% endif %}
         <div class="col-12 col-md-6 mx-auto">
             <div class="bg-light p-3">
-                <h5 class="my-3">{{post.title}}</h5>
-                <p>{{post.content}}</p>
+                <h5 class="my-3">{{post.clean_title}}</h5>
+                <p>{{post.clean_content}}</p>
                 {% for tag in post.tags.all %}
                 <span class="fw-bold text-primary">#{{tag.name}}</span>
                 {% endfor %}
@@ -78,7 +78,7 @@
                 <h5>Comments</h5>
                 {% for comment in comments %}
                 <div class="bg-white text-dark my-3 p-3 rounded">
-                    <p class="fs-5 fw-semibold">{{comment.text}}</p>
+                    <p class="fs-5 fw-semibold">{{comment.clean_text}}</p>
                     <div class="d-flex justify-content-between text-secondary">
                         <div>@{{comment.author_id}}</div>
                         <div>{{comment.created_at}}</div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="p-3 ms-5">
                     {% for reply in comment.reply_set.all %}
-                    <p class="fs-5 fw-semibold">{{reply.text}}</p>
+                    <p class="fs-5 fw-semibold">{{reply.clean_text}}</p>
                     <div class="d-flex justify-content-between text-secondary">
                         <div>@{{reply.author_id}}</div>
                         <div>{{reply.created_at}}</div>
