@@ -14,3 +14,10 @@ def badword_create(request):
         badword.save()
         return redirect(reverse('badword_index'))
     return render(request, 'shared/not_found.html')
+
+def badword_delete(request, id):
+    if request.POST:
+        word = BadWord.objects.get(pk = id)
+        word.delete()
+        return redirect(reverse('badword_index'))
+    return render(request, 'shared/not_found.html')

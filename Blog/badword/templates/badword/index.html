@@ -21,7 +21,7 @@
             <tr>
                 <td>{{word.text}}</td>
                 <td>
-                    <form method="POST" action="">
+                    <form method="POST" action="{% url 'badword_delete' word.id %}">
                         {% csrf_token %}
                         <input class="btn btn-outline-danger" type="submit" value="Delete">
                     </form>
