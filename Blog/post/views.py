@@ -46,6 +46,10 @@ def _react(request, post: Post):
             reaction.user_id = request.user
             reaction.post_id = post
             reaction.save()
+        if post.postreaction_set.filter(liked = False).count() > 3:
+            post.delete()
+            return redirect(reverse('home'))
+    return redirect(reverse('post_details', args=[post.id]))
 
 
 def post_details(request, id):
@@ -64,7 +68,7 @@ def post_details(request, id):
     context['user_reaction'] = reaction_number
     if request.POST:
         if 'reaction' in request.POST:
-            _react(request, post)
+            return _react(request, post)
         elif 'reply_text' in request.POST:
             _send_reply(request)
         else:
