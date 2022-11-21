@@ -55,13 +55,17 @@
                 <div class="d-inline-block">
                     <form method="post">
                         {% csrf_token %}
-                        <button class="btn btn-link text-light" type="submit" name='reaction' value="like">Like</button>
+                        <button class="btn btn-link {% if user_reaction == 1 %}text-warning fw-bold {% else %} text-light{% endif %}" type="submit" name='reaction' value="like">
+                            Like{% if user_reaction == 1 %}d{% endif %}
+                        </button>
                     </form>
                 </div>
                 <div class="d-inline-block">
                     <form method="post">
                         {% csrf_token %}
-                        <button class="btn btn-link text-light" type="submit" name='reaction' value="dislike">Dislike</button>
+                        <button class="btn btn-link {% if user_reaction == -1 %}text-warning fw-bold {% else %} text-light{% endif %}" type="submit" name='reaction' value="dislike">
+                            Dislike{% if user_reaction == -1 %}d{% endif %}
+                        </button>
                     </form>
                 </div>
             </div>

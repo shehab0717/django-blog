@@ -21,6 +21,7 @@ def post_create(request):
     form = CreatePostForm()
     return render(request, 'post/create.html', {'form': form})
 
+
 @login_required
 def _create_comment(request, post):
     commentForm = CreateCommentForm(request.POST)
@@ -31,6 +32,7 @@ def _create_comment(request, post):
         comment.save()
         commentForm = CreateCommentForm()
     return commentForm
+
 
 @login_required
 def _react(request, post: Post):
@@ -51,6 +53,15 @@ def post_details(request, id):
     context = post.get_details()
     commentForm = CreateCommentForm()
     context['commentForm'] = commentForm
+    user_reaction = post.user_reaction(request.user)
+    reaction_number = 0
+    if user_reaction:
+        user_reaction = user_reaction.first()
+        if user_reaction.liked:
+            reaction_number = 1
+        else:
+            reaction_number = -1
+    context['user_reaction'] = reaction_number
     if request.POST:
         if 'reaction' in request.POST:
             _react(request, post)
@@ -59,7 +70,9 @@ def post_details(request, id):
         else:
             commentForm = _create_comment(request, post)
             context['commentForm'] = commentForm
+        return redirect(reverse('post_details', args = [id]))
     return render(request, 'post/details.html', context)
+
 
 @login_required
 def post_update(request, id):
@@ -79,9 +92,10 @@ def post_update(request, id):
         return render(request, 'post/update.html', {'form': form})
     raise PermissionDenied()
 
+
 @login_required
 def post_delete(request, id):
-    post = Post.objects.filter(id = id)
+    post = Post.objects.filter(id=id)
     if not post:
         return render(request, 'shared/not_found.html')
     post = post.first()
@@ -98,8 +112,7 @@ def _send_reply(request):
         reply = Reply()
         reply.text = request.POST['reply_text']
         print(request.POST)
-        comment = Comment.objects.get(pk = request.POST['comment_id'])
+        comment = Comment.objects.get(pk=request.POST['comment_id'])
         reply.comment_id = comment
         reply.author_id = request.user
         reply.save()
-
