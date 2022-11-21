@@ -3,37 +3,41 @@
 {% block title %}Categories{% endblock title %}
 
 {% block content %}
-<table class="table table-hover">
-    <thead>
-        <td>id</td>
-        <td>name</td>
-        <td>actions</td>
-    </thead>
-    <tbody>
-        {% for cat in categories %}
-        <tr>
-            <td>{{cat.id}}</td>
-            <td>
-                <a href="{% url 'category_details' cat.id %}">{{cat.name}}</a>
-                <div class="d-inline-block">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-sm btn-primary" type="submit" name="category_id" value="{{cat.id}}">
-                            {% if user in cat.subscribers.all %}
-                            Unsubscribe
-                            {% else %}
-                            Subscribe
-                            {% endif %}
-                        </button>
-                    </form>
-                </div>
-            </td>
-            <td>
-                <a class="btn btn-warning" href="{% url 'category_update' cat.id %}">update</a>
-                <a class="btn btn-danger" href="{% url 'category_delete' cat.id %}">delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container">
+    <h2 class="my-3">Categories</h2>
+    <a class="btn btn-primary my-3" href="{% url 'category_create' %}">New category</a>
+    <table class="table table-hover">
+        <thead>
+            <td>id</td>
+            <td>name</td>
+            <td>actions</td>
+        </thead>
+        <tbody>
+            {% for cat in categories %}
+            <tr>
+                <td>{{cat.id}}</td>
+                <td>
+                    <a href="{% url 'category_details' cat.id %}">{{cat.name}}</a>
+                    <div class="d-inline-block">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-primary" type="submit" name="category_id" value="{{cat.id}}">
+                                {% if user in cat.subscribers.all %}
+                                Unsubscribe
+                                {% else %}
+                                Subscribe
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-warning" href="{% url 'category_update' cat.id %}">update</a>
+                    <a class="btn btn-danger" href="{% url 'category_delete' cat.id %}">delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock content %}
