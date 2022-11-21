@@ -9,6 +9,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .models import UserStatus
+from django.db.models import Q
+
 
 def _check_groups():
     for g in settings.GROUPS:
@@ -16,6 +18,7 @@ def _check_groups():
         if not group:
             group = Group(name=g['NAME'])
             group.save()
+
 
 def _register_post(request):
     form = RegisterForm(request.POST)
@@ -25,7 +28,7 @@ def _register_post(request):
         group = Group.objects.get(name='default')
         user.save()
         group.user_set.add(user)
-        u_status = UserStatus(user = user)
+        u_status = UserStatus(user=user)
         u_status.save()
         return redirect(reverse('custom_login'))
     return render(request, 'registration/register.html', {'form': form})
@@ -43,7 +46,8 @@ def register_view(request):
 
 
 def home_view(request):
-    posts = Post.get_all(request.user)
+    search = request.GET['search'] if 'search' in request.GET else ''
+    posts = Post.get_all(request.user, search=search)
     categories = Category.objects.all()
     return render(request, 'home.html', {'posts': posts, 'categories': categories})
 
@@ -53,19 +57,18 @@ def log_out(request):
     return redirect(reverse('custom_login'))
 
 
-
 def login(request):
     if request.user.is_authenticated:
         return redirect(reverse('home'))
 
     form = AuthenticationForm()
     if request.method == 'POST':
-        form = AuthenticationForm(data = request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            
-            user = authenticate(username = username, password = password)
+
+            user = authenticate(username=username, password=password)
 
             if user is not None:
                 print('found user')
@@ -73,5 +76,6 @@ def login(request):
                     dlogin(request, user)
                     return redirect(reverse('home'))
                 else:
-                    form.add_error(field=None, error='This user is blocked, contact the admin to help you')
+                    form.add_error(
+                        field=None, error='This user is blocked, contact the admin to help you')
     return render(request, 'registration/login.html', {'form': form})
